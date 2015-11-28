@@ -130,6 +130,9 @@ ifndef PTR64
 ifneq (,$(findstring mingw64-w64,$(PATH)))
 PTR64=1
 endif
+ifneq (,$(findstring mingw-w64,$(PATH)))
+PTR64=1
+endif
 endif
 
 endif
@@ -418,7 +421,7 @@ CCOMFLAGS += -O$(OPTIMIZE)
 ifneq ($(OPTIMIZE),0)
 ifneq ($(TARGETOS),os2)
 ifndef NOWERROR
-CCOMFLAGS += -Werror -fno-strict-aliasing $(ARCHOPTS)
+CCOMFLAGS += -fno-strict-aliasing $(ARCHOPTS)
 else
 CCOMFLAGS += -fno-strict-aliasing $(ARCHOPTS)
 endif

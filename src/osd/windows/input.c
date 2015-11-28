@@ -449,7 +449,7 @@ static const int win_key_trans_table[][4] =
 //  INLINE FUNCTIONS
 //============================================================
 
-INLINE void poll_if_necessary(running_machine *machine)
+void poll_if_necessary(running_machine *machine)
 {
 	// make sure we poll at least once every 1/4 second
 	if (GetTickCount() > last_poll + 1000 / 4)

@@ -49,6 +49,8 @@
 #ifndef __EMU_H__
 #define __EMU_H__
 
+#include <stddef.h>
+
 // core emulator headers -- must be first
 #include "emucore.h"
 #include "eminline.h"
