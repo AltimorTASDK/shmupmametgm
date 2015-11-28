@@ -193,6 +193,7 @@ struct _digital_joystick_state
 	UINT8						current;			/* current value */
 	UINT8						current4way;		/* current 4-way value */
 	UINT8						previous;			/* previous value */
+	UINT8						previous4way;		/* previous 4-way value */
 	UINT8						current_from_seq;
 	UINT8						previous_from_seq;
 };
@@ -2612,8 +2613,6 @@ static void frame_update_digital_joysticks(running_machine *machine)
 				/* only update 4-way case if joystick has moved */
 				if (joystick->current != joystick->previous)
 				{
-					joystick->current4way = joystick->current;
-
 					/*
                         If joystick is pointing at a diagonal, acknowledge that the player moved
                         the joystick by favoring a direction change.  This minimizes frustration
@@ -2625,11 +2624,8 @@ static void frame_update_digital_joysticks(running_machine *machine)
 
                         Zero any switches that didn't change from the previous to current state.
                      */
-					if ((joystick->current4way & (JOYDIR_UP_BIT | JOYDIR_DOWN_BIT)) &&
-						(joystick->current4way & (JOYDIR_LEFT_BIT | JOYDIR_RIGHT_BIT)))
-					{
-						joystick->current4way ^= joystick->current4way & joystick->previous;
-					}
+					joystick->previous4way = joystick->current4way;
+					joystick->current4way = joystick->current & ~joystick->previous4way;
 
 					/*
                         If we are still pointing at a diagonal, we are in an indeterminant state.
@@ -2645,9 +2641,9 @@ static void frame_update_digital_joysticks(running_machine *machine)
 					if ((joystick->current4way & (JOYDIR_UP_BIT | JOYDIR_DOWN_BIT)) &&
 						(joystick->current4way & (JOYDIR_LEFT_BIT | JOYDIR_RIGHT_BIT)))
 					{
-						if (mame_rand(machine) & 1)
-							joystick->current4way &= ~(JOYDIR_LEFT_BIT | JOYDIR_RIGHT_BIT);
-						else
+						//if (mame_rand(machine) & 1)
+						//	joystick->current4way &= ~(JOYDIR_LEFT_BIT | JOYDIR_RIGHT_BIT);
+						//else
 							joystick->current4way &= ~(JOYDIR_UP_BIT | JOYDIR_DOWN_BIT);
 					}
 				}
