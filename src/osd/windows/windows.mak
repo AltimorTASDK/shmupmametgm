@@ -226,7 +226,7 @@ LIBS += -lunicows
 endif
 
 # ensure we statically link the gcc runtime lib
-LDFLAGS += -static-libgcc
+LDFLAGS += -static-libgcc -static-libstdc++
 
 # add the windows libraries
 LIBS += -luser32 -lgdi32 -lddraw -ldsound -ldxguid -lwinmm -ladvapi32 -lcomctl32 -lshlwapi -ldinput8
